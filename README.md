@@ -1,4 +1,4 @@
-Nginx Role
+Nginx-role
 =========
 
 Ansible роль для установки nginx из stable ветки. Конфигурация собирается динамически из template. По умолчанию запускается установка nginx и конфигурирование из template. Это поведении можно изменить указав тэг при запуске. Также есть возможность удалить nginx при использованиии тэга.
@@ -44,7 +44,7 @@ Example Playbook
     - hosts: web-servers
       become: true
       roles:
-         - nginx
+         - nginx-role
 
 Пример запуска ansible-playbook:
 
