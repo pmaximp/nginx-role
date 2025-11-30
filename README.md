@@ -30,9 +30,6 @@ Role Variables
 |------|-------------|------|---------|
 | <a name="input_nginx_version"></a> [nginx\_version](#input\_nginx\_version) | Версия nginx для установки | `string` | `1.26.3` |
 | <a name="input_nginx_user"></a> [nginx\_user](#input\_nginx\_user) | Пользователь из под которого будет работать nginx | `"string"` | `root` |
-| <a name="input_rpm_gpg_key_url"></a> [rpm\_gpg\_key\_url](#input\_rpm\_gpg\_key\_url) | URL GPG ключа для подписи пакета deb | `string` | `"https://nginx.org/keys/nginx_signing.key"` |
-| <a name="input_deb_gpg_key_url"></a> [deb\_gpg\_key\_url](#input\_deb\_gpg\_key\_url) | URL GPG ключа для подписи пакета rpm | `string` | `"https://nginx.org/keys/nginx_signing.key"` |
-| <a name="input_deb_gpg_path"></a> [rpm\_deb\_gpg\_path](#input\_deb\_gpg\_path) | Путь сохранения GPG ключа для deb | `string` | `"/usr/share/keyrings/nginx-archive-keyring.gpg"` |
 
 Example Playbook
 ----------------
