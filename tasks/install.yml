@@ -1,0 +1,10 @@
+---
+- name: Install | DEB based OS
+  when: ansible_facts["pkg_mgr"] == "apt"
+  ansible.builtin.include_tasks:
+    file: deb_based.yml
+
+- name: Install | RPM based OS
+  when: ansible_facts["pkg_mgr"] == "yum" or ansible_facts["pkg_mgr"] == "dnf"
+  ansible.builtin.include_tasks:
+    file: rpm_based.yml

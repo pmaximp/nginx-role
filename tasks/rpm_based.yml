@@ -1,0 +1,22 @@
+---
+- name: Install | RPM | Add nginx repo
+  when: rpm_gpg_key_url is defined
+  ansible.builtin.yum_repository:
+    name: "nginx"
+    file: nginx
+    baseurl: http://nginx.org/packages/centos/$releasever/$basearch/
+    gpgcheck: true
+    gpgkey: "{{ rpm_gpg_key_url }}"
+    description: "nginx"
+  register: state_repo
+
+- name: Install | RPM |  Install nginx packages
+  when: not ansible_check_mode
+  ansible.builtin.dnf:
+    name: "nginx-{{ nginx_version }}"
+    state: present
+    update_cache: true
+  notify: Start nginx service
+
+- name: Meta | Flush handlers
+  ansible.builtin.meta: flush_handlers

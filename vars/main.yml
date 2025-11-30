@@ -1,3 +1,9 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # vars file for nginx-role
+# Rrm based
+rpm_gpg_key_url: https://nginx.org/keys/nginx_signing.key
+
+# Deb based
+deb_gpg_key_url: https://nginx.org/keys/nginx_signing.key
+deb_gpg_path: /usr/share/keyrings/nginx-archive-keyring.gpg

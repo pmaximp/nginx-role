@@ -1,0 +1,29 @@
+---
+- name: Install | DEB | Add GPG keys
+  when: deb_gpg_key_url is defined
+  ansible.builtin.apt_key:
+    url: "{{ deb_gpg_key_url }}"
+    keyring: "{{ deb_gpg_path }}"
+  register: gpg_state_path
+
+- name: Install | DEB | Add nginx repo
+  block:
+    - name: Install | Ubuntu | Add nginx repo
+      ansible.builtin.apt_repository:
+        filename: nginx
+        repo: "deb [signed-by={{ deb_gpg_path }}] http://nginx.org/packages/ubuntu {{ ansible_facts['lsb']['codename'] }} nginx"
+  rescue:
+    - name: Install | Ubuntu | Add nginx repo
+      ansible.builtin.apt_repository:
+        filename: nginx
+        repo: "deb [signed-by={{ deb_gpg_path }}] http://nginx.org/packages/debian {{ ansible_facts['lsb']['codename'] }} nginx"
+
+- name: Install | DEB | Install nginx
+  when: not ansible_check_mode
+  ansible.builtin.apt:
+    name: "nginx={{ nginx_version }}-1~{{ ansible_facts['lsb']['codename'] }}"
+    update_cache: true
+  notify: Start nginx service
+
+- name: Meta | Flush handlers
+  ansible.builtin.meta: flush_handlers

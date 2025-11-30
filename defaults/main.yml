@@ -1,3 +1,5 @@
-#SPDX-License-Identifier: MIT-0
+# SPDX-License-Identifier: MIT-0
 ---
 # defaults file for nginx-role
+nginx_user: root
+nginx_version: 1.26.3

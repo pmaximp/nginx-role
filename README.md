@@ -1,31 +1,68 @@
-Role Name
+Nginx Role
 =========
 
-A brief description of the role goes here.
+Ansible роль для установки nginx из stable ветки. Конфигурация собирается динамически из template. По умолчанию запускается установка nginx и конфигурирование из template. Это поведении можно изменить указав тэг при запуске. Также есть возможность удалить nginx при использованиии тэга.
+
+Поддерживаемые ОС:
+  - Debian 11.x - 13.x
+  - Ubuntu 22.04 - 25.10
+  - CentOS 7 - 9
+
+Подробнее о версиях nginx для конкретных дистрибутивов см. на [nignx.org](https://nginx.org/en/linux_packages.html)
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Для использования потребуются следующие модули:
+  - ansible.builtin.apt_key
+  - ansible.builtin.apt_repository
+  - ansible.builtin.template
+  - ansible.builtin.meta
+  - ansible.builtin.apt
+  - ansible.builtin.yum_repository
+  - ansible.builtin.dnf
+
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
-
-Dependencies
-------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+| Name | Description | Type | Default |
+|------|-------------|------|---------|
+| <a name="input_nginx_version"></a> [nginx\_version](#input\_nginx\_version) | Версия nginx для установки | `string` | `1.26.3` |
+| <a name="input_nginx_user"></a> [nginx\_user](#input\_nginx\_user) | Пользователь из под которого будет работать nginx | `"string"` | `root` |
+| <a name="input_rpm_gpg_key_url"></a> [rpm\_gpg\_key\_url](#input\_rpm\_gpg\_key\_url) | URL GPG ключа для подписи пакета deb | `string` | `"https://nginx.org/keys/nginx_signing.key"` |
+| <a name="input_deb_gpg_key_url"></a> [deb\_gpg\_key\_url](#input\_deb\_gpg\_key\_url) | URL GPG ключа для подписи пакета rpm | `string` | `"https://nginx.org/keys/nginx_signing.key"` |
+| <a name="input_deb_gpg_path"></a> [rpm\_deb\_gpg\_path](#input\_deb\_gpg\_path) | Путь сохранения GPG ключа для deb | `string` | `"/usr/share/keyrings/nginx-archive-keyring.gpg"` |
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Переменные можно переопределить в group_vars или указать в play.
 
-    - hosts: servers
+Пример playbook:
+
+    - hosts: web-servers
+      become: true
       roles:
-         - { role: username.rolename, x: 42 }
+         - nginx
+
+Пример запуска ansible-playbook:
+
+  **Запуск установки и настройки nginx:**
+  
+    ansible-playbook -i hosts.ini site.yml
+
+  **Запуск только установки nginx:**
+  
+    ansible-playbook -i hosts.ini site.yml --tags nginx_install
+
+  **Запуск только настройки nginx:**
+  
+    ansible-playbook -i hosts.ini site.yml --tags nginx_conf
+  
+  **Удание nginx и конфигурации:**
+  
+    ansible-playbook -i hosts.ini site.yml --tags nginx_remove
 
 License
 -------
@@ -35,4 +72,5 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Perman Maxim
+maxim@7perman.ru

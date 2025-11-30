@@ -1,0 +1,14 @@
+---
+- name: Remove | DEB | Remove nginx packages
+  when: ansible_facts["pkg_mgr"] == "apt"
+  ansible.builtin.apt:
+    name: nginx
+    purge: true
+    state: absent
+
+- name: Remove | RPM | Remove nginx packages
+  when: ansible_facts["pkg_mgr"] == "yum" or ansible_facts["pkg_mgr"] == "dnf"
+  ansible.builtin.dnf:
+    name: nginx
+    autoremove: true
+    state: absent

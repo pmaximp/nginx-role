@@ -1,3 +1,23 @@
-#SPDX-License-Identifier: MIT-0
+# SPDX-License-Identifier: MIT-0
 ---
 # tasks file for nginx-role
+- name: Nginx | Install
+  ansible.builtin.include_tasks:
+    file: install.yml
+    apply:
+      tags: [nginx_install]
+  tags: [nginx_install]
+
+- name: Nginx | Configure
+  ansible.builtin.include_tasks:
+    file: config.yml
+    apply:
+      tags: [nginx_config]
+  tags: [nginx_config]
+
+- name: Nginx | Remove
+  ansible.builtin.include_tasks:
+    file: remove.yml
+    apply:
+      tags: [nginx_remove]
+  tags: [nginx_remove, never]
